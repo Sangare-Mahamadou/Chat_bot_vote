@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from agent_sql_opti_Copie2 import ElectionAgent
+from agent_sql import ElectionAgent
 import os, base64, logging
 
 # --- LOGGING ---
