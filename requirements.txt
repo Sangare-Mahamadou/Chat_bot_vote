@@ -1,0 +1,9 @@
+streamlit
+plotly
+duckdb
+pandas
+numpy
+ollama
+pdfplumber
+python-dotenv
+psutil

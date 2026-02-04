@@ -1,0 +1,242 @@
+/* =========================
+   FOND GLOBAL
+=========================*/
+.stApp {
+    background:
+      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+      var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* =========================
+   TRANSPARENCE STREAMLIT
+=========================*/
+[data-testid="stHeader"],
+[data-testid="stToolbar"],
+[data-testid="stChatFloatingInputContainer"],
+[data-testid="stAppViewContainer"] {
+    background: transparent !important;
+}
+
+/* =========================
+   CONTENEUR CENTRAL
+=========================*/
+.main .block-container {
+    position: relative;
+    background:
+      linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)),
+      var(--bg-image);
+    background-size: cover;
+    background-position: center;
+
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+
+    border-radius: 42px;
+    padding: 3.5rem;
+    margin-top: 70px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.55),
+      inset 0 1px 1px rgba(255,255,255,0.25);
+}
+
+/* =========================
+   MESSAGE D'ACCUEIL
+=========================*/
+.welcome-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    /* Supprime les marges automatiques qui pourraient décentrer */
+    margin: 0 auto 30px auto !important; 
+    
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(25px);
+    border-radius: 25px;
+    
+    padding: 40px;
+    width: 90%; /* Prend presque toute la largeur du conteneur central */
+    max-width: 600px; /* Mais garde une taille élégante */
+    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    
+    /* Animation pour l'apparition */
+    animation: fadeIn 0.8s ease-out;
+}
+
+.welcome-box h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.welcome-box p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* =========================
+   TITRE
+=========================*/
+.main-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.9);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: -50px;
+    padding-top: 0px;
+}
+
+/* =========================
+   INPUT CHAT
+=========================*/
+[data-testid="stChatInput"] {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 35px;
+    border: none;
+    box-shadow: 0 -10px 35px rgba(0,0,0,0.35);
+}
+
+/* =========================
+   BULLES CHAT
+=========================*/
+.user-bubble {
+    background: linear-gradient(135deg,#007AFF,#005BB5);
+    color: white;
+    padding: 16px 22px;
+    border-radius: 26px 26px 4px 26px;
+    margin-left: auto;
+    max-width: 70%;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+    margin-bottom: 25px !important;
+}
+
+.bot-bubble {
+    background: rgba(255,255,255,0.95);
+    color: #111;
+    padding: 16px 22px;
+    border-radius: 26px 26px 26px 4px;
+    max-width: 70%;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    margin-bottom: 25px !important;
+}
+
+/* =========================
+   THINKING (3 POINTS)
+=========================*/
+.typing {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    
+    /* On reprend le style de la bulle du bot mais en plus petit */
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    padding: 12px 20px;
+    margin: 10px 0 20px 0; /* Aligné à gauche */
+    
+    border-radius: 20px 20px 20px 5px; /* Forme de bulle */
+    width: fit-content;
+    
+    /* Effet 3D léger */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.2) translateY(-5px); /* Effet de saut plus dynamique */
+    }
+
+}
+
+/* =========================
+   BOUTONS FLOTTANTS
+=========================*/
+.thinking-actions {
+    position: fixed !important;
+    bottom: 120px !important;
+    left: 20px !important;
+    transform: none !important;
+    background: red !important;
+    padding: 10px;
+    z-index: 99999;
+}
+
+.thinking-btn {
+    padding: 10px 18px;
+    border-radius: 22px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+
+    color: #111;
+    opacity: 0.85;
+}
+
+.block-container {
+    padding-top: 1rem !important; 
+    padding-bottom: 0rem !important;
+}
+
+div[data-testid="stPlotlyChart"] {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Optionnel : Pour enlever aussi le fond gris au survol des boutons Plotly */
+.js-plotly-plot .plotly .modebar {
+    background-color: transparent !important;
+}
+
+/* Dans style.css, ajoute ou modifie pour cibler le stream natif */
+.stChatMessage {
+    background-color: transparent !important;
+}
+
+/* Force le texte du stream à adopter le look de ta bulle bot */
+div[data-testid="stChatMessage"] {
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f2f6; /* Couleur de ta bulle bot */
+    color: black;
+}
