@@ -1,0 +1,734 @@
+{
+  "database_info": {
+    "type": "DuckDB",
+    "file": "election_ci.db",
+    "path": "src\\data\\database\\election_ci.db",
+    "created_at": "2026-01-26T01:58:20.769036",
+    "statistics": {
+      "total_candidatures": 1125,
+      "total_elus": 205,
+      "total_regions": 33,
+      "total_circonscriptions": 205,
+      "total_partis": 41,
+      "total_voix_exprimees": 2913991
+    }
+  },
+  "allowed_views": [
+    {
+      "view_name": "vw_results_clean",
+      "description": "Vue principale avec toutes les données nettoyées et normalisées",
+      "columns": [
+        {
+          "name": "row_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "region_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "region_slug",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_id",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "nombre_bureaux_vote",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "inscrits",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "votants",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "taux_de_participation",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "bulletins_nuls",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "suffrages_exprimes",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "bulletins_blancs",
+          "type": "BIGINT"
+        },
+        {
+          "name": "pourcentage_blancs",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti_standardized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti_slug",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "voix",
+          "type": "BIGINT"
+        },
+        {
+          "name": "pourcentage_voix",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "elu",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "est_elu",
+          "type": "BIGINT"
+        },
+        {
+          "name": "processed_at",
+          "type": "VARCHAR"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_winners",
+      "description": "Vue contenant uniquement les candidats élus",
+      "columns": [
+        {
+          "name": "row_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "region_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_id",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti_standardized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "voix",
+          "type": "BIGINT"
+        },
+        {
+          "name": "pourcentage_voix",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "rang_circonscription",
+          "type": "BIGINT"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_turnout",
+      "description": "Vue avec les statistiques de participation par circonscription (doublons éliminés)",
+      "columns": [
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_id",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "nombre_bureaux_vote",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "inscrits",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "votants",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "taux_de_participation",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "bulletins_nuls",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "suffrages_exprimes",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "bulletins_blancs",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "pourcentage_blancs",
+          "type": "DOUBLE"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_party_stats",
+      "description": "Vue avec les statistiques agrégées par parti politique",
+      "columns": [
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscriptions_presentes",
+          "type": "BIGINT"
+        },
+        {
+          "name": "sieges_remportes",
+          "type": "HUGEINT"
+        },
+        {
+          "name": "taux_victoire_pourcent",
+          "type": "FLOAT"
+        },
+        {
+          "name": "total_voix",
+          "type": "HUGEINT"
+        },
+        {
+          "name": "total_candidats",
+          "type": "HUGEINT"
+        },
+        {
+          "name": "voix_moyennes_par_circo",
+          "type": "DOUBLE"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_region_stats",
+      "description": "Vue avec les statistiques agrégées par région",
+      "columns": [
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "nombre_circonscriptions",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_bureaux_vote",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_inscrits",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_votants",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "taux_participation_moyen",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_bulletins_nuls",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "total_bulletins_blancs",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "circonscriptions_avec_resultats",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_candidats",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_elus",
+          "type": "HUGEINT"
+        },
+        {
+          "name": "total_voix_exprimees",
+          "type": "HUGEINT"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_candidate_performance",
+      "description": "Vue avec la performance détaillée et le classement des candidats",
+      "columns": [
+        {
+          "name": "row_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription_id",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat_normalized",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "voix",
+          "type": "BIGINT"
+        },
+        {
+          "name": "pourcentage_voix",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "est_elu",
+          "type": "BIGINT"
+        },
+        {
+          "name": "rang_circonscription",
+          "type": "BIGINT"
+        },
+        {
+          "name": "performance_categorie",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "statut_detail",
+          "type": "VARCHAR"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_rag_search",
+      "description": "Vue optimisée pour la recherche sémantique (RAG)",
+      "columns": [
+        {
+          "name": "row_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "circonscription",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "candidat",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "voix",
+          "type": "BIGINT"
+        },
+        {
+          "name": "pourcentage_voix",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "est_elu",
+          "type": "BIGINT"
+        },
+        {
+          "name": "elu",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "search_text",
+          "type": "VARCHAR"
+        }
+      ]
+    },
+    {
+      "view_name": "vw_party_search",
+      "description": "Vue pour la recherche de partis politiques avec aliases",
+      "columns": [
+        {
+          "name": "party_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "parti",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "total_candidates",
+          "type": "BIGINT"
+        },
+        {
+          "name": "seats_won",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_votes",
+          "type": "BIGINT"
+        },
+        {
+          "name": "avg_vote_percentage",
+          "type": "DOUBLE"
+        },
+        {
+          "name": "known_aliases",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "search_text",
+          "type": "VARCHAR"
+        }
+      ]
+    }
+  ],
+  "allowed_tables": [
+    {
+      "table_name": "dim_party",
+      "description": "Table dimension des partis politiques pour référence",
+      "columns": [
+        {
+          "name": "party_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "party_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "total_candidates",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_seats_won",
+          "type": "BIGINT"
+        },
+        {
+          "name": "total_votes",
+          "type": "BIGINT"
+        },
+        {
+          "name": "avg_vote_percentage",
+          "type": "DOUBLE"
+        }
+      ]
+    }
+  ],
+  "security_rules": {
+    "allowed_operations": [
+      "SELECT"
+    ],
+    "forbidden_keywords": [
+      "insert",
+      "update",
+      "delete",
+      "drop",
+      "alter",
+      "truncate",
+      "create",
+      "grant",
+      "revoke",
+      "exec",
+      "execute",
+      "--",
+      "/*",
+      "union select",
+      "information_schema",
+      "pg_",
+      "system",
+      "merge",
+      "replace",
+      "commit",
+      "rollback"
+    ],
+    "auto_limit": 100,
+    "timeout_ms": 5000,
+    "max_rows": 10000
+  },
+  "example_queries": [
+    "SELECT COUNT(*) as total_elus FROM vw_winners",
+    "SELECT candidat, parti, voix FROM vw_results_clean ORDER BY voix DESC LIMIT 10",
+    "SELECT region, ROUND(AVG(taux_de_participation), 2) as participation_moyenne FROM vw_turnout GROUP BY region ORDER BY participation_moyenne DESC",
+    "SELECT parti, COUNT(*) as sieges FROM vw_winners GROUP BY parti ORDER BY sieges DESC",
+    "SELECT candidat, parti, region, voix FROM vw_candidate_performance WHERE rang_circonscription = 1 ORDER BY voix DESC LIMIT 10",
+    "SELECT region, total_votants, total_inscrits, taux_participation_moyen FROM vw_region_stats ORDER BY taux_participation_moyen DESC",
+    "SELECT parti, total_candidats, total_voix, sieges_remportes FROM vw_party_stats ORDER BY sieges_remportes DESC",
+    "SELECT parti, total_votes, seats_won, avg_vote_percentage FROM vw_party_search ORDER BY total_votes DESC LIMIT 5",
+    "SELECT * FROM dim_party WHERE party_name LIKE '%RHDP%' OR known_aliases LIKE '%RHDP%'"
+  ],
+  "column_descriptions": {
+    "vw_results_clean": {
+      "region": "Nom de la région administrative",
+      "circonscription": "Circonscription électorale (peut contenir plusieurs communes)",
+      "parti": "Parti politique ou 'INDEPENDANT'",
+      "parti_standardized": "Parti standardisé (regroupement des variantes)",
+      "candidat": "Nom complet du candidat",
+      "voix": "Nombre de voix obtenues (entier)",
+      "pourcentage_voix": "Pourcentage de voix dans la circonscription",
+      "elu": "Texte 'ELU(E)' si élu, vide sinon",
+      "est_elu": "1 si élu, 0 sinon (pour calculs)",
+      "inscrits": "Nombre d'électeurs inscrits (uniquement sur première ligne de chaque circonscription)",
+      "votants": "Nombre de votants (uniquement sur première ligne de chaque circonscription)"
+    },
+    "vw_party_search": {
+      "parti": "Nom standardisé du parti politique",
+      "total_candidates": "Nombre total de candidats présentés par le parti",
+      "seats_won": "Nombre de sièges remportés par le parti",
+      "total_votes": "Nombre total de voix obtenues par le parti",
+      "avg_vote_percentage": "Pourcentage moyen de voix par candidat",
+      "known_aliases": "Alias connus du parti séparés par des virgules",
+      "search_text": "Texte formaté pour la recherche sémantique (RAG)"
+    },
+    "dim_party": {
+      "party_id": "Identifiant unique du parti",
+      "party_name": "Nom standardisé du parti",
+      "total_candidates": "Nombre total de candidats",
+      "total_seats_won": "Nombre total de sièges remportés",
+      "total_votes": "Nombre total de voix obtenues",
+      "avg_vote_percentage": "Pourcentage moyen de voix par candidat"
+    }
+  },
+  "common_aliases": {
+    "partis": {
+      "RHDP": [
+        "R.H.D.P",
+        "Rassemblement des Houphouëtistes",
+        "RASSEMBLEMENT DES HOUPHOUËTISTES POUR LA DÉMOCRATIE ET LA PAIX"
+      ],
+      "PDCI-RDA": [
+        "PDCI",
+        "RDA",
+        "PARTI DÉMOCRATIQUE DE CÔTE D'IVOIRE"
+      ],
+      "FPI": ["FRONT POPULAIRE IVOIRIEN","F.P.I" ],
+      "ADCI": [
+        "ALLIANCE DES DÉMOCRATES DE CÔTE D'IVOIRE",
+        "ADCI - GP-PAIX - VALEUR"
+      ],
+      "MGC": [
+        "MOUVEMENT DES GENS DE CÔTE D'IVOIRE"
+      ],
+      "INDEPENDANT": [
+        "INDÉPENDANT",
+        "IND",
+        "SANS ETIQUETTE",
+        "CANDIDAT INDÉPENDANT"
+      ],
+      "CNPCIN": [],
+      "GJPA-CI": [],
+      "CNJB-ADO": [],
+      "PRO CI": [
+        "PRO COTE DIVOIRE"
+      ],
+      "CODE": [],
+      "GP-PAIX": [],
+      "AIDE": [],
+      "PIA/PRI/CODE": [],
+      "UNCI": [],
+      "PDCI - FPI - ADCI": [
+        "PDCI-FPI-ADCI"
+      ],
+      "MERCI": [],
+      "URCI": [],
+      "LE BUFFLE": [],
+      "UDCY": [],
+      "EDS": [],
+      "CRI PANAFRICAIN": [],
+      "MDR": [],
+      "ICON": [],
+      "P.B.J.V": [],
+      "UNPR": [],
+      "REEL.CI": [],
+      "APR.CI": [],
+      "AIRD": [],
+      "PPSD": [],
+      "ACI": [],
+      "MNRP": [],
+      "FPP": [],
+      "FNDR": [],
+      "UFD": [],
+      "MLPCI": [],
+      "CNDCI": [],
+      "UDP": [],
+      "PIA/CODE": [],
+      "PDCI-RDA - EDS": [
+        "PDCI-RDA-EDS"
+      ],
+      "MIRDEP": [],
+      "RDP": []
+    },
+    "regions": {
+      "AGNEBY-TIASSA": [
+        "AGNEBY TIASSA",
+        "AGNEBY"
+      ],
+      "DISTRICT AUTONOME D'ABIDJAN": [
+        "ABIDJAN",
+        "DISTRICT ABIDJAN",
+        "ABIDJAN DISTRICT"
+      ],
+      "DISTRICT AUTONOME DE YAMOUSSOUKRO": [
+        "YAMOUSSOUKRO",
+        "DISTRICT YAMOUSSOUKRO",
+        "YAMOUSSOUKRO DISTRICT"
+      ],
+      "HAUT- SASSANDRA": [
+        "HAUT SASSANDRA",
+        "HAUT-SASSANDRA"
+      ],
+      "INDENIE-DJUABLIN": [
+        "INDENIE DJUABLIN",
+        "INDENIE/DJUABLIN"
+      ],
+      "LOH-DJIBOUA": [
+        "LOH DJIBOUA",
+        "LOH/DJIBOUA"
+      ],
+      "SUD-COMOE": [
+        "SUD COMOE",
+        "SUD-COMÉ"
+      ]
+    }
+  },
+  "column_aliases": {
+    "vw_region_stats": {
+      "taux_de_participation": [
+        "taux_participation_moyen",
+        "participation_moyenne",
+        "participation"
+      ],
+      "region": [
+        "région",
+        "nom_region"
+      ]
+    },
+    "vw_candidate_performance": {
+      "parti": [
+        "parti_standardized",
+        "parti_politique",
+        "groupe_politique"
+      ],
+      "candidat": [
+        "nom_candidat",
+        "candidate","nom candidat"
+      ]
+    },
+    "vw_results_clean": {
+      "parti_standardized": [
+        "parti",
+        "parti_politique",
+        "groupe"
+      ]
+    },
+    "vw_party_search": {
+      "parti": [
+        "party_name",
+        "parti_politique",
+        "groupe_politique"
+      ],
+      "seats_won": [
+        "sieges_remportes",
+        "nombre_sieges",
+        "total_sieges",""
+      ],
+      "total_votes": [
+        "voix_totales",
+        "total_voix",
+        "nombre_voix"
+      ]
+    },
+    "dim_party": {
+      "party_name": [
+        "parti",
+        "nom_parti",
+        "parti_standardized"
+      ],
+      "total_seats_won": [
+        "sieges_remportes",
+        "elus",
+        "total_elus"
+      ]
+    }
+  }
+}
